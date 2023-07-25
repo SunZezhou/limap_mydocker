@@ -3,20 +3,20 @@
 cmake-build-*
 *.egg-info/
 
-*.npy
-*.png
-*.pyc
-*.tar
-*.obj
-*.pth
-*.gif
-*.mp4
-*.h5
-*.swp
-*.zip
-*.tar.gz
-*.th
-*.so
+# *.npy
+# *.png
+# *.pyc
+# *.tar
+# *.obj
+# *.pth
+# *.gif
+# *.mp4
+# *.h5
+# *.swp
+# *.zip
+# *.tar.gz
+# *.th
+# *.so
 
 experiments
 data

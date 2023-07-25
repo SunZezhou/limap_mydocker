@@ -1,11 +1,60 @@
-# LIMAP 
+
+**Modify:** only run successfully in docker
+
+***Requirements:***
+- x86-64 (amd64) architecture
+- GPU that supports CUDA 11.5
+- Ubuntu
+
+***Dependencies:***
+- [Docker](https://docs.docker.com/engine/install/)
+- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#setting-up-nvidia-container-toolkit)
+- You need to set up a ssh key for Github account to clone the LIMAP when building the image. Follow [this instruction](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) to generate a key, and then [this instruction](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to register the key to your Github account.
+
+***Step:***
+1. download [Dockerfile](https://github.com/SunZezhou/limap_mydocker/blob/master/docker/Dockerfile)
+1. For GUI 
+   ```bash
+    xhost +
+   ```
+1. Build docker image
+   ```bash
+    docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_ed25519)" -t="limap" .
+   ```
+
+1. Run container
+    ```bash
+    docker run \
+        --rm \
+        -it \
+        --gpus all \
+        --shm-size 50G \
+        --device=/dev/dri:/dev/dri \
+        -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+        -e DISPLAY=$DISPLAY \
+        -e QT_X11_NO_MITSHM=1 \
+        --net=host \
+        limap
+        bash
+   ```
+
+***Note:***
+1. python pdb调试方法
+    - `s` step into
+    - `n` next step
+    - `c` continue
+
+1. For VSCode Debug
+    - python path `/opt/venv/bin/python3.9`
+    
+-----------------------------------------------------
+
+# Limap
+
 <p align="center">
 <img src="./misc/media/supp_qualitative_5x3.png">
 </p>
 
-----------------------------------------------------------------
-**Note**: More README and docs will be available soon.
-----------------------------------------------------------------
 
 LIMAP is a toolbox for mapping and localization with line features. The system was initially described in the highlight paper [3D Line Mapping Revisited](https://arxiv.org/abs/2303.17504) at CVPR 2023 in Vancouver, Canada. Contributors to this project are from the [Computer Vision and Geometry Group](https://cvg.ethz.ch/) at [ETH Zurich](https://ethz.ch/en.html).
 

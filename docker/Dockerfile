@@ -118,11 +118,11 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN /usr/bin/python3.9 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN python3.9 -m pip install --force-reinstall torch==1.12.1+cu113 --extra-index-url https://download.pytorch.org/whl/
+RUN python3.9 -m pip install torch==1.12.1+cu113 --extra-index-url https://download.pytorch.org/whl/
+# RUN python3.9 -m pip install --force-reinstall torch==1.12.1+cu113 --extra-index-url https://download.pytorch.org/whl/
 
-COPY --from=intermediate /limap /limap
+COPY --from=intermediate /limap_mydocker /limap
 
-RUN python3.9 -m pip install --upgrade pip setuptools && \
 RUN cd limap && \
     python3.9 -m pip install -r requirements.txt && \
     python3.9 -m pip install -Ive .
