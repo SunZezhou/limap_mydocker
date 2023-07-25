@@ -1,6 +1,7 @@
 import numpy as np
 from skimage import measure as skmeasure
-from torch._six import string_classes
+# from torch._six import string_classes
+string_classes = str
 import collections.abc as collections
 import torch
 import cv2

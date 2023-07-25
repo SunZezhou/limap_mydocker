@@ -15,7 +15,7 @@ RUN chmod 600 /root/.ssh/id_ed25519
 RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
-RUN git clone --recursive git@github.com:cvg/limap.git
+RUN git clone https://github.com/SunZezhou/limap_mydocker.git
 
 # From here, final image
 FROM nvidia/cuda:11.5.2-devel-ubuntu20.04
@@ -51,7 +51,9 @@ RUN apt-get update && apt-get install -y \
     libceres-dev \
     wget \
     software-properties-common \
-    lsb-core
+    lsb-core \
+    nano \
+    unzip
 
 # CMake Install (Default version does not meet the LIMAP requirement)
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | \
@@ -116,13 +118,12 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN /usr/bin/python3.9 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Copy the repository from the first image
+RUN python3.9 -m pip install --force-reinstall torch==1.12.1+cu113 --extra-index-url https://download.pytorch.org/whl/
+
 COPY --from=intermediate /limap /limap
-RUN python -m pip install torch==1.12.0 torchvision==0.13.0 --index-url https://download.pytorch.org/whl/cu115
-RUN python -m pip install --upgrade pip setuptools && \
-    cd limap && \
-    python --version && \
-    pip --version && \
-    python -m pip install -r requirements.txt && \
-    python -m pip install -Ive .
+
+RUN python3.9 -m pip install --upgrade pip setuptools && \
+RUN cd limap && \
+    python3.9 -m pip install -r requirements.txt && \
+    python3.9 -m pip install -Ive .
 
