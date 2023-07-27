@@ -5,7 +5,7 @@ cmake-build-*
 
 # *.npy
 # *.png
-# *.pyc
+*.pyc
 # *.tar
 # *.obj
 # *.pth
@@ -16,7 +16,7 @@ cmake-build-*
 # *.zip
 # *.tar.gz
 # *.th
-# *.so
+*.so
 
 experiments
 data
